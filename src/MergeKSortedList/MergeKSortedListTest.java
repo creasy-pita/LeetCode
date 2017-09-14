@@ -43,6 +43,7 @@ public class MergeKSortedListTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		ListNode nodeTemp = lnew;
 		while(nodeTemp!=null){
 			System.out.print(nodeTemp.val+"->");

@@ -1,7 +1,9 @@
 package MergeKSortedList;
 
 import java.awt.List;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Comparator;
  */
 public class Heapnew {
 	private int size;
-	
+	private static final int  MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 	private Comparator<ListNode> comparator = null;
 	
 	private ListNode[] nodes;
@@ -18,19 +20,34 @@ public class Heapnew {
 		return size;
 	}
 	
-	public Heapnew(int maxCap){
-		nodes = new ListNode[maxCap];
+	public Heapnew(int intiCap){
+		nodes = new ListNode[intiCap];
 		
 	}
 	
-	public Heapnew(int maxCap, Comparator<ListNode> comparator){
-		nodes = new ListNode[maxCap];
+	public Heapnew(int intiCap, Comparator<ListNode> comparator){
+		nodes = new ListNode[intiCap];
 		this.comparator = comparator;
 	}	
 	public boolean IsEmpty(){
 		return size==0;
 	}
+	
+	private void grow(int minCapacity){
+		int oldCapacity = nodes.length;
+		int newCapacity = oldCapacity + ((oldCapacity < 64)?
+										oldCapacity+2:
+										oldCapacity>>1);
+		if(newCapacity > MAX_ARRAY_SIZE)
+			newCapacity = MAX_ARRAY_SIZE;
+		nodes = Arrays.copyOf(nodes, newCapacity);
+	}
+	
 	public void Add(ListNode node){
+		if(size== nodes.length-1){
+			grow(size+1);
+			System.out.println("grow to "+nodes.length);
+		}
 		nodes[++size] = node;
 		SiftUp(size);
 	}
@@ -52,24 +69,9 @@ public class Heapnew {
 		if(comparator != null){
 			SiftDownByComparator(i);
 		}
-		
-/*		ListNode curr= nodes[i];
-		int largestIndex = i;
-		if(2*i <= size && curr.val < nodes[2*i].val)
-		{
-			largestIndex = 2*i; 
+		else{
+			SiftDownByDefComparator(i);
 		}
-		if(2*i+1 <=size && nodes[largestIndex].val < nodes[2*i + 1].val)
-		{
-			largestIndex = 2*i +1;
-		}
-		if(largestIndex != i)
-		{
-			ListNode temp = nodes[i];
-			nodes[i] = nodes[largestIndex];
-			nodes[largestIndex]= temp;
-			SiftDown(largestIndex);
-		}*/
 	}
 	
 	public void SiftDownByDefComparator(int i)
@@ -119,7 +121,7 @@ public class Heapnew {
 	
 	public void SiftUp(int i){
 		if(comparator != null){
-			SiftDownByComparator(i);
+			SiftUpByComparator(i);
 		}
 		else{
 			SiftUpByDefComparator(i);

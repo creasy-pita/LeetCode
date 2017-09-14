@@ -6,15 +6,16 @@ public class MergeKSortedList {
 	
 	public ListNode sort2(ArrayList<ListNode> list) throws Exception{
 		
-		Heapnew heap = new Heapnew(30
+		Heapnew heap = new Heapnew(2
 				, new Comparator<ListNode>() {
 					@Override
 					public int compare(ListNode node1, ListNode node2)
 					{
 						return node1.val - node2.val;
 					}
-				});
-		//heap.poll()
+				}
+		);
+		
 		for(int i=0;i<list.size();i++)
 		{
 			heap.Add(list.get(i));
